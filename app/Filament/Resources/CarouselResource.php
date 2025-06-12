@@ -37,6 +37,7 @@ class CarouselResource extends Resource
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
                     ->label('輪播圖片')
+                    ->columnSpanFull()
                     ->image()
                     ->imageEditor()
                     ->directory('carousel')
