@@ -33,21 +33,34 @@ class PricesRelationManager extends RelationManager
                     ->label('價格類型')
                     ->options([
                         'fixed' => '固定金額',
-                        'discount' => '折扣比例',
+                        'discount' => '折扣',
                     ])
                     ->required()
                     ->default('fixed')
                     ->live(),
+                Forms\Components\TextInput::make('original_price')
+                    ->label('原價')
+                    ->required()
+                    ->numeric()
+                    ->minValue(0)
+                    ->prefix('NT$')
+                    ->visible(fn (Forms\Get $get): bool => 
+                        $get('price_type') === 'discount'
+                    ),
                 Forms\Components\TextInput::make('price_amount')
                     ->label('價格')
                     ->required()
                     ->numeric()
                     ->minValue(0)
+                    ->maxValue(100)
                     ->prefix(fn (Forms\Get $get): string => 
                         $get('price_type') === 'discount' ? '' : 'NT$'
                     )
                     ->suffix(fn (Forms\Get $get): string => 
-                        $get('price_type') === 'discount' ? '%' : ''
+                        $get('price_type') === 'discount' ? '折' : ''
+                    )
+                    ->helperText(fn (Forms\Get $get): string => 
+                        $get('price_type') === 'discount' ? '例如：95 代表 9.5 折' : ''
                     )
                     ->visible(fn (Forms\Get $get): bool => 
                         $get('price_type') !== null
@@ -65,21 +78,31 @@ class PricesRelationManager extends RelationManager
                     ->sortable(),
                 Tables\Columns\TextColumn::make('price_type')
                     ->label('價格類型')
-                    ->formatStateUsing(fn (string $state): string => 
+                    ->formatStateUsing(fn ($state) => 
                         match($state) {
                             'fixed' => '固定金額',
-                            'discount' => '折扣比例',
+                            'discount' => '折扣',
                             default => $state,
                         }
                     ),
+                Tables\Columns\TextColumn::make('original_price')
+                    ->label('原價')
+                    ->money('TWD')
+                    ->visible(fn ($record) => $record && $record->price_type === 'discount')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('price_amount')
                     ->label('價格')
                     ->formatStateUsing(function ($record) {
+                        if (!$record) return '';
                         if ($record->price_type === 'discount') {
-                            return $record->price_amount . '%';
+                            return $record->price_amount . '折';
                         }
                         return 'NT$ ' . number_format($record->price_amount);
                     })
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('final_price')
+                    ->label('最終價格')
+                    ->money('TWD')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('建立時間')

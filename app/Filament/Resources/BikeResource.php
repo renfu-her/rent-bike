@@ -71,14 +71,27 @@ class BikeResource extends Resource
                 Tables\Columns\TextColumn::make('model')
                     ->label('機車型號')
                     ->searchable(),
-                Tables\Columns\SelectColumn::make('status')
+                Tables\Columns\TextColumn::make('status')
                     ->label('狀態')
-                    ->options([
-                        'available' => '待出租',
-                        'rented' => '已出租',
-                        'maintenance' => '維修中',
-                        'disabled' => '停用',
-                    ]),
+                    ->formatStateUsing(fn (string $state): string => 
+                        match($state) {
+                            'available' => '待出租',
+                            'rented' => '已出租',
+                            'maintenance' => '維修中',
+                            'disabled' => '停用',
+                            default => $state,
+                        }
+                    )
+                    ->badge()
+                    ->color(fn (string $state): string => 
+                        match($state) {
+                            'available' => 'success',
+                            'rented' => 'warning',
+                            'maintenance' => 'danger',
+                            'disabled' => 'gray',
+                            default => 'gray',
+                        }
+                    ),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('建立時間')
                     ->dateTime()
@@ -101,6 +114,24 @@ class BikeResource extends Resource
                     ]),
             ])
             ->actions([
+                Tables\Actions\Action::make('changeStatus')
+                    ->label('修改狀態')
+                    ->icon('heroicon-o-pencil-square')
+                    ->form([
+                        Forms\Components\Select::make('status')
+                            ->label('狀態')
+                            ->options([
+                                'available' => '待出租',
+                                'rented' => '已出租',
+                                'maintenance' => '維修中',
+                                'disabled' => '停用',
+                            ])
+                            ->default(fn (Bike $record): string => $record->status)
+                            ->required(),
+                    ])
+                    ->action(function (Bike $record, array $data): void {
+                        $record->update($data);
+                    }),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
