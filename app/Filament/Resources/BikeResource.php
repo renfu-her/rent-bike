@@ -114,7 +114,8 @@ class BikeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\PricesRelationManager::class,
+            RelationManagers\AccessoriesRelationManager::class,
         ];
     }
 
