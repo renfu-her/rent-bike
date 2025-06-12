@@ -52,7 +52,6 @@ class PricesRelationManager extends RelationManager
                     ->required()
                     ->numeric()
                     ->minValue(0)
-                    ->maxValue(100)
                     ->prefix(fn (Forms\Get $get): string => 
                         $get('price_type') === 'discount' ? '' : 'NT$'
                     )
