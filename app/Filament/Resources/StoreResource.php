@@ -12,6 +12,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class StoreResource extends Resource
 {
@@ -45,6 +49,36 @@ class StoreResource extends Resource
                     ->label('商店主管')
                     ->relationship('manager', 'name')
                     ->required(),
+                Forms\Components\FileUpload::make('image')
+                    ->label('店面照片')
+                    ->image()
+                    ->imageEditor()
+                    ->directory('stores')
+                    ->columnSpanFull()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->downloadable()
+                    ->openable()
+                    ->getUploadedFileNameForStorageUsing(
+                        fn($file): string => (string) str(Str::uuid7() . '.webp')
+                    )
+                    ->saveUploadedFileUsing(function ($file) {
+                        $manager = new ImageManager(new Driver());
+                        $image = $manager->read($file);
+                        $image->scale(1920, 1080);
+                        $filename = Str::uuid7()->toString() . '.webp';
+
+                        if (!file_exists(storage_path('app/public/stores'))) {
+                            mkdir(storage_path('app/public/stores'), 0755, true);
+                        }
+
+                        $image->toWebp(80)->save(storage_path('app/public/stores/' . $filename));
+                        return 'stores/' . $filename;
+                    })
+                    ->deleteUploadedFileUsing(function ($file) {
+                        if ($file) {
+                            Storage::disk('public')->delete($file);
+                        }
+                    }),
             ]);
     }
 
@@ -52,6 +86,9 @@ class StoreResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('店面照片')
+                    ->circular(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('商店名稱')
                     ->searchable(),
