@@ -14,6 +14,12 @@ class PricesRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'rental_days';
 
+    protected static ?string $title = '價格方案';
+
+    protected static ?string $modelLabel = '價格方案';
+
+    protected static ?string $pluralModelLabel = '價格方案';
+
     public function form(Form $form): Form
     {
         return $form
@@ -54,15 +60,19 @@ class PricesRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->label('新增價格方案'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label('編輯'),
+                Tables\Actions\DeleteAction::make()
+                    ->label('刪除'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('刪除所選'),
                 ]),
             ]);
     }

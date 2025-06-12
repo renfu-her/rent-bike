@@ -33,7 +33,7 @@ class BikeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('store_id')
+                Forms\Components\Select::make('store_store_id')
                     ->label('所屬商店')
                     ->relationship('store', 'name')
                     ->required(),
