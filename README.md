@@ -47,7 +47,8 @@
 | role           | ENUM     |            | super_admin / store_manager / staff / user |
 | name           | VARCHAR  |            | 使用者名稱                             |
 | email          | VARCHAR  | UQ         | 登入帳號（唯一）                        |
-| password_hash  | VARCHAR  |            | 密碼（加密儲存）                        |
+| password       | VARCHAR  |            | 密碼（加密儲存）                        |
+| remember_token | VARCHAR  |            | Token                                  |
 | created_at     | DATETIME |            | 建立時間                               |
 | updated_at     | DATETIME |            | 更新時間                               |
 
@@ -61,6 +62,7 @@
 | name        | VARCHAR  |             | 商店名稱         |
 | address     | VARCHAR  |             | 商店地址         |
 | manager_id  | BIGINT   | FK → Users  | 負責人（Store Manager） |
+| image       | VARCHAR  |             | 店面照片         |
 | created_at  | DATETIME |             | 建立時間         |
 | updated_at  | DATETIME |             | 更新時間         |
 
@@ -68,15 +70,15 @@
 
 ### 3.3 Bikes（機車）
 
-| 欄位       | 型別     | PK/FK       | 說明                            |
-|------------|----------|-------------|---------------------------------|
-| bike_id    | BIGINT   | PK          | 機車主鍵                         |
-| store_id   | BIGINT   | FK → Stores | 所屬商店                         |
-| plate_no   | VARCHAR  | UQ          | 車牌號碼（唯一）                  |
-| model      | VARCHAR  |             | 機車型號                         |
-| status     | ENUM     |             | 待出租 / 已出租 / 維修中 / 停用  |
-| created_at | DATETIME |             | 建立時間                         |
-| updated_at | DATETIME |             | 更新時間                         |
+| 欄位           | 型別     | PK/FK       | 說明                            |
+|----------------|----------|-------------|---------------------------------|
+| bike_id        | BIGINT   | PK          | 機車主鍵                         |
+| store_store_id | BIGINT   | FK → Stores | 所屬商店                         |
+| plate_no       | VARCHAR  | UQ          | 車牌號碼（唯一）                  |
+| model          | VARCHAR  |             | 機車型號                         |
+| status         | ENUM     |             | 待出租 / 已出租 / 維修中 / 停用  |
+| created_at     | DATETIME |             | 建立時間                         |
+| updated_at     | DATETIME |             | 更新時間                         |
 
 ---
 
@@ -89,6 +91,8 @@
 | helmet_count | INT      |             | 安全帽數量（預設為 2）    |
 | has_lock     | BOOLEAN  |             | 是否附鎖                  |
 | has_toolkit  | BOOLEAN  |             | 是否附維修工具            |
+| created_at   | DATETIME |             | 建立時間                  |
+| updated_at   | DATETIME |             | 更新時間                  |
 
 ---
 
@@ -99,7 +103,9 @@
 | price_id     | BIGINT   | PK            | 價格主鍵                       |
 | bike_id      | BIGINT   | FK → Bikes    | 所屬機車                       |
 | rental_days  | INT      |               | 租借天數（如：1、3、7）        |
-| price_amount | DECIMAL  |               | 該天數對應金額（如：300、800） |
+| price_type   | ENUM     |               | fixed / discount               |
+| original_price | DECIMAL |               | 原價（僅折扣時需填）           |
+| price_amount | DECIMAL  |               | 金額或折扣（如：300、95）      |
 | created_at   | DATETIME |               | 建立時間                       |
 | updated_at   | DATETIME |               | 更新時間                       |
 
@@ -116,6 +122,8 @@
 | end_time    | DATETIME |              | 租借結束時間（尚未還車為 NULL）    |
 | status      | ENUM     |              | active / completed / cancelled    |
 | total_price | DECIMAL  |              | 訂單總金額                         |
+| created_at  | DATETIME |              | 建立時間                           |
+| updated_at  | DATETIME |              | 更新時間                           |
 
 ---
 
@@ -130,6 +138,7 @@
 | is_resolved       | BOOLEAN  |                | 是否處理完成                        |
 | related_order_id  | BIGINT   | FK → Orders    | 關聯訂單（若開單期間為租借中）       |
 | created_at        | DATETIME |                | 建立時間                            |
+| updated_at        | DATETIME |                | 更新時間                            |
 
 ---
 
