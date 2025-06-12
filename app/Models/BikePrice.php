@@ -14,12 +14,14 @@ class BikePrice extends Model
     protected $fillable = [
         'bike_id',
         'rental_days',
+        'price_type',
         'price_amount',
     ];
 
     protected $casts = [
         'rental_days' => 'integer',
         'price_amount' => 'decimal:2',
+        'price_type' => 'string',
     ];
 
     public function bike()

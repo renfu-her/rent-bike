@@ -29,12 +29,29 @@ class PricesRelationManager extends RelationManager
                     ->required()
                     ->numeric()
                     ->minValue(1),
+                Forms\Components\Select::make('price_type')
+                    ->label('價格類型')
+                    ->options([
+                        'fixed' => '固定金額',
+                        'discount' => '折扣比例',
+                    ])
+                    ->required()
+                    ->default('fixed')
+                    ->live(),
                 Forms\Components\TextInput::make('price_amount')
                     ->label('價格')
                     ->required()
                     ->numeric()
                     ->minValue(0)
-                    ->prefix('NT$'),
+                    ->prefix(fn (Forms\Get $get): string => 
+                        $get('price_type') === 'discount' ? '' : 'NT$'
+                    )
+                    ->suffix(fn (Forms\Get $get): string => 
+                        $get('price_type') === 'discount' ? '%' : ''
+                    )
+                    ->visible(fn (Forms\Get $get): bool => 
+                        $get('price_type') !== null
+                    ),
             ]);
     }
 
@@ -46,9 +63,23 @@ class PricesRelationManager extends RelationManager
                     ->label('租借天數')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('price_type')
+                    ->label('價格類型')
+                    ->formatStateUsing(fn (string $state): string => 
+                        match($state) {
+                            'fixed' => '固定金額',
+                            'discount' => '折扣比例',
+                            default => $state,
+                        }
+                    ),
                 Tables\Columns\TextColumn::make('price_amount')
                     ->label('價格')
-                    ->money('TWD')
+                    ->formatStateUsing(function ($record) {
+                        if ($record->price_type === 'discount') {
+                            return $record->price_amount . '%';
+                        }
+                        return 'NT$ ' . number_format($record->price_amount);
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('建立時間')
