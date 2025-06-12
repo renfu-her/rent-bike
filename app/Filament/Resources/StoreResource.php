@@ -87,8 +87,7 @@ class StoreResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('店面照片')
-                    ->circular(),
+                    ->label('店面照片'),
                 Tables\Columns\TextColumn::make('name')
                     ->label('商店名稱')
                     ->searchable(),
