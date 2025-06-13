@@ -6,20 +6,17 @@
 <!-- 輪播區塊 -->
 <div id="mainCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
     <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" class="d-block w-100" alt="...">
+        @foreach($carousels as $index => $carousel)
+        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+            <img src="{{ asset('storage/' . $carousel->image) }}" class="d-block w-100" alt="{{ $carousel->title }}">
             <div class="carousel-caption d-none d-md-block">
-                <h5>歡迎來到機車出租平台</h5>
-                <p>輕鬆租車，安全出行</p>
+                <h5>{{ $carousel->title }}</h5>
+                @if($carousel->url)
+                <a href="{{ $carousel->url }}" class="btn btn-light">了解更多</a>
+                @endif
             </div>
         </div>
-        <div class="carousel-item">
-            <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>多元車款任你選</h5>
-                <p>全台商店，隨時預約</p>
-            </div>
-        </div>
+        @endforeach
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -71,6 +68,29 @@
         <img src="https://www.zocha.com.tw/static/元素_特色04-min.png" class="mb-2" style="height:48px;">
         <div>安全<br><span class="text-muted">安全保障的旅遊體驗</span></div>
     </div>
+</div>
+
+<!-- 商店列表 -->
+<div class="row mb-5">
+    <h3 class="text-center mb-4">熱門租車門市</h3>
+    @foreach($stores as $store)
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            @if($store->image)
+            <img src="{{ asset('storage/' . $store->image) }}" class="card-img-top" alt="{{ $store->name }}" style="height: 200px; object-fit: cover;">
+            @else
+            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                <i class="fa-solid fa-store fa-3x text-muted"></i>
+            </div>
+            @endif
+            <div class="card-body">
+                <h5 class="card-title">{{ $store->name }}</h5>
+                <p class="card-text text-muted">{{ $store->address }}</p>
+                <a href="{{ route('store.detail', $store) }}" class="btn btn-primary">查看車款</a>
+            </div>
+        </div>
+    </div>
+    @endforeach
 </div>
 
 <!-- CTA 區塊 -->
