@@ -12,6 +12,13 @@
         @forelse($store->bikes as $bike)
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
+                    @if($bike->image)
+                        <img src="{{ asset('storage/' . $bike->image) }}" class="card-img-top" alt="{{ $bike->model }}" style="height: 200px; object-fit: cover;">
+                    @else
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fa-solid fa-motorcycle fa-3x text-muted"></i>
+                        </div>
+                    @endif
                     <div class="card-body">
                         <h5 class="card-title">{{ $bike->model }}</h5>
                         <p class="card-text mb-1"><strong>車牌：</strong>{{ $bike->plate_no }}</p>

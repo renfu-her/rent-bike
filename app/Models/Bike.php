@@ -18,6 +18,7 @@ class Bike extends Model
         'store_store_id',
         'plate_no',
         'model',
+        'image',
         'status',
         'accessories',
     ];
@@ -45,5 +46,10 @@ class Bike extends Model
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class, 'bike_id', 'bike_id');
+    }
+
+    public function accessories(): HasOne
+    {
+        return $this->hasOne(Accessory::class, 'bike_id', 'bike_id');
     }
 }

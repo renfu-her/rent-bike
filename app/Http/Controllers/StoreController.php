@@ -25,6 +25,7 @@ class StoreController extends Controller
     {
         $bikes = $store->bikes()
             ->with(['prices', 'accessories'])
+            ->where('status', 'available')
             ->get();
 
         return view('store.detail', compact('store', 'bikes'));

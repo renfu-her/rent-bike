@@ -12,6 +12,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class BikeResource extends Resource
 {
@@ -46,6 +50,36 @@ class BikeResource extends Resource
                     ->label('機車型號')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\FileUpload::make('image')
+                    ->label('機車圖片')
+                    ->image()
+                    ->imageEditor()
+                    ->directory('bikes')
+                    ->columnSpanFull()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->downloadable()
+                    ->openable()
+                    ->getUploadedFileNameForStorageUsing(
+                        fn($file): string => (string) str(Str::uuid7() . '.webp')
+                    )
+                    ->saveUploadedFileUsing(function ($file) {
+                        $manager = new ImageManager(new Driver());
+                        $image = $manager->read($file);
+                        $image->cover(800, 450);
+                        $filename = Str::uuid7()->toString() . '.webp';
+
+                        if (!file_exists(storage_path('app/public/bikes'))) {
+                            mkdir(storage_path('app/public/bikes'), 0755, true);
+                        }
+
+                        $image->toWebp(80)->save(storage_path('app/public/bikes/' . $filename));
+                        return 'bikes/' . $filename;
+                    })
+                    ->deleteUploadedFileUsing(function ($file) {
+                        if ($file) {
+                            Storage::disk('public')->delete($file);
+                        }
+                    }),
                 Forms\Components\Select::make('status')
                     ->label('狀態')
                     ->options([
@@ -85,6 +119,10 @@ class BikeResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('機車圖片')
+                    ->square()
+                    ->defaultImageUrl(url('/images/placeholder.png')),
                 Tables\Columns\TextColumn::make('store.name')
                     ->label('所屬商店')
                     ->searchable(),
