@@ -9,3 +9,35 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* Filament Repeater 緊湊樣式 */
+.fi-fo-repeater-item {
+    margin-bottom: 4px !important;
+    padding: 8px 8px 0 8px !important;
+    border-radius: 6px !important;
+}
+.fi-fo-repeater-item .fi-fo-field-wrapper {
+    margin-bottom: 0 !important;
+}
+
+:root {
+    --main-color: #3AC0D2;
+}
+
+.navbar, .navbar.bg-dark, .navbar.navbar-dark {
+    background-color: #3AC0D2 !important;
+}
+
+.btn-main, .btn-primary {
+    background-color: #3AC0D2 !important;
+    border-color: #3AC0D2 !important;
+    color: #fff !important;
+}
+
+.text-main {
+    color: #3AC0D2 !important;
+}
+
+.card-header, .card-footer {
+    background-color: #e6f8fa;
+}

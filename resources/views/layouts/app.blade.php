@@ -18,7 +18,7 @@
     @stack('styles')
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #3AC0D2 !important;">
     <div class="container">
         <a class="navbar-brand" href="/">機車出租</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

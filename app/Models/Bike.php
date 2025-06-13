@@ -19,20 +19,17 @@ class Bike extends Model
         'plate_no',
         'model',
         'status',
+        'accessories',
     ];
 
     protected $casts = [
         'status' => 'string',
+        'accessories' => 'array',
     ];
 
     public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class, 'store_store_id', 'store_id');
-    }
-
-    public function accessory(): HasOne
-    {
-        return $this->hasOne(Accessory::class, 'bike_id', 'bike_id');
     }
 
     public function prices(): HasMany

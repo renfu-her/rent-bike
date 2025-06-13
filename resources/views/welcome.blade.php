@@ -34,24 +34,22 @@
     </div>
 </nav>
 
-<div class="container mt-4">
-    <!-- 輪播區塊 -->
+<div class="container py-4">
+    {{-- Banner 輪播區塊 --}}
     <div id="mainCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>歡迎來到機車出租平台</h5>
-                    <p>輕鬆租車，安全出行</p>
+            @foreach(App\Models\Carousel::where('is_active', true)->orderBy('sort_order')->get() as $i => $carousel)
+                <div class="carousel-item @if($i === 0) active @endif">
+                    <a href="{{ $carousel->url ?? '#' }}" target="_blank">
+                        <img src="{{ asset('storage/' . $carousel->image) }}" class="d-block w-100 rounded" alt="{{ $carousel->title }}">
+                    </a>
+                    @if($carousel->title)
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
+                            <h5>{{ $carousel->title }}</h5>
+                        </div>
+                    @endif
                 </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>多元車款任你選</h5>
-                    <p>全台商店，隨時預約</p>
-                </div>
-            </div>
+            @endforeach
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -63,10 +61,22 @@
         </button>
     </div>
 
-    <div class="text-center">
-        <h2 class="mb-3"><i class="fa-solid fa-motorcycle"></i> 機車出租平台</h2>
-        <p>快速、方便、安全的機車租賃服務，立即體驗！</p>
-        <a href="/bikes" class="btn btn-primary btn-lg"><i class="fa-solid fa-magnifying-glass"></i> 開始找車</a>
+    {{-- 門市卡片區塊 --}}
+    <div class="row g-4">
+        @foreach(App\Models\Store::all() as $store)
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    @if($store->image)
+                        <img src="{{ asset('storage/' . $store->image) }}" class="card-img-top" alt="{{ $store->name }}">
+                    @endif
+                    <div class="card-body">
+                        <h5 class="card-title text-main">{{ $store->name }}</h5>
+                        <p class="card-text">{{ $store->address }}</p>
+                        <a href="{{ route('store.detail', $store->id ?? $store->store_id) }}" class="btn btn-main w-100">查看門市</a>
+                    </div>
+                </div>
+            </div>
+        @endforeach
     </div>
 </div>
 
