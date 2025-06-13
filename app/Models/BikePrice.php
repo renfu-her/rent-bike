@@ -17,6 +17,7 @@ class BikePrice extends Model
         'price_type',
         'original_price',
         'price_amount',
+        'image'
     ];
 
     protected $casts = [

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', '機車出租平台')</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; }
+        .navbar-brand { font-weight: bold; }
+        .nav-link.active { color: #f8b803 !important; }
+        .main-footer { background: #222; color: #fff; padding: 2rem 0; margin-top: 3rem; }
+        .main-footer a { color: #f8b803; }
+    </style>
+    @stack('styles')
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">機車出租</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link @if(request()->is('/')) active @endif" href="/">首頁</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if(request()->is('bikes*')) active @endif" href="/bikes"><i class="fa-solid fa-motorcycle me-1"></i>機車出租</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if(request()->is('login')) active @endif" href="/login"><i class="fa-solid fa-right-to-bracket me-1"></i>登入</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container py-4">
+    @yield('content')
+</main>
+
+<footer class="main-footer text-center">
+    <div class="container">
+        <div class="mb-2">
+            <a href="/">首頁</a> | <a href="/bikes">機車出租</a> | <a href="/login">登入</a>
+        </div>
+        <div>Copyright &copy; {{ date('Y') }} 機車出租平台. All rights reserved.</div>
+    </div>
+</footer>
+
+<!-- jQuery 3.7.1 -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+@stack('scripts')
+</body>
+</html> 

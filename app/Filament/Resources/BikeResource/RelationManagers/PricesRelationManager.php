@@ -64,6 +64,35 @@ class PricesRelationManager extends RelationManager
                     ->visible(fn (Forms\Get $get): bool => 
                         $get('price_type') !== null
                     ),
+                Forms\Components\FileUpload::make('image')
+                    ->label('圖片')
+                    ->image()
+                    ->imageEditor()
+                    ->directory('bike_prices')
+                    ->columnSpanFull()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->downloadable()
+                    ->openable()
+                    ->getUploadedFileNameForStorageUsing(
+                        fn($file): string => (string) str(\Illuminate\Support\Str::uuid() . '.webp')
+                    )
+                    ->saveUploadedFileUsing(function ($file) {
+                        $manager = new \Intervention\Image\ImageManager(new \Intervention\Image\Drivers\Gd\Driver());
+                        $image = $manager->read($file);
+                        $image->scale(800, 600);
+                        $filename = \Illuminate\Support\Str::uuid()->toString() . '.webp';
+                        if (!file_exists(storage_path('app/public/bike_prices'))) {
+                            mkdir(storage_path('app/public/bike_prices'), 0755, true);
+                        }
+                        $image->toWebp(80)->save(storage_path('app/public/bike_prices/' . $filename));
+                        return 'bike_prices/' . $filename;
+                    })
+                    ->deleteUploadedFileUsing(function ($file) {
+                        if ($file) {
+                            \Illuminate\Support\Facades\Storage::disk('public')->delete($file);
+                        }
+                    })
+                    ->nullable(),
             ]);
     }
 
@@ -108,6 +137,12 @@ class PricesRelationManager extends RelationManager
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('圖片')
+                    ->size(40)
+                    ->circular(false)
+                    ->extraImgAttributes(['style' => 'object-fit: contain; background: #f8f9fa;'])
+                    ->default(fn () => asset('svg/uni-image-block-o.svg')),
             ])
             ->filters([
                 //

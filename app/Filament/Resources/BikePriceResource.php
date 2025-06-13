@@ -83,6 +83,16 @@ class BikePriceResource extends Resource
                     ->visible(fn (Forms\Get $get): bool => 
                         $get('price_type') !== null
                     ),
+                Forms\Components\FileUpload::make('image')
+                    ->label('圖片')
+                    ->image()
+                    ->imageEditor()
+                    ->directory('bike_prices')
+                    ->columnSpanFull()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->downloadable()
+                    ->openable()
+                    ->nullable(),
             ]);
     }
 
@@ -125,6 +135,10 @@ class BikePriceResource extends Resource
                     ->label('最終價格')
                     ->money('TWD')
                     ->sortable(),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('圖片')
+                    ->defaultImageUrl('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/svgs/solid/image.svg')
+                    ->circular(false),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('建立時間')
                     ->dateTime()
