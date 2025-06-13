@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
+    public function index()
+    {
+        return view('index');
+    }
+
     public function detail(Store $store)
     {
         $store->load('bikes');
