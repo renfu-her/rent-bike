@@ -8,7 +8,7 @@
     <div class="carousel-inner">
         @foreach($carousels as $index => $carousel)
         <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-            <img src="{{ asset('storage/' . $carousel->image) }}" class="d-block w-100" alt="{{ $carousel->title }}">
+            <img src="{{ asset('storage/' . $carousel->image) }}" class="d-block w-100" alt="{{ $carousel->title }}" style="height: 600px; object-fit: cover;">
             <div class="carousel-caption d-none d-md-block">
                 <h5>{{ $carousel->title }}</h5>
                 @if($carousel->url)
