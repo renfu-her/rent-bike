@@ -23,11 +23,11 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #3AC0D2 !important;">
     <div class="container">
-        <a class="navbar-brand" href="/">機車出租</a>
+        <a class="navbar-brand" style="color: #fff !important;" href="/">機車出租</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse main-menu" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link @if(request()->is('/')) active @endif" href="/">首頁</a>

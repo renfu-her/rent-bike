@@ -1,8 +1,25 @@
-a {
-    color: #fff !important;
+/* a {
+    color: #333 !important;
     text-decoration: none !important;
-}
+} */
 a:hover, a:focus {
-    color: #fff !important;
+    color: #333 !important;
     text-decoration: underline;
+}
+
+.main-menu a {
+    color: #fff !important;
+}
+
+.main-menu a:hover, .main-menu a:focus {
+    color: #003c3c !important;
+}
+
+.main-menu .nav-link.active {
+    color: #003c3c !important;
+    font-weight: bold;
+}
+
+.main-footer a {
+    color: #ddd !important;
 }
