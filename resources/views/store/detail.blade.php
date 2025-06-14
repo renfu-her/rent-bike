@@ -6,7 +6,8 @@
 <div class="container py-4">
     <div class="mb-4">
         <h2 class="text-main">{{ $store->name }}</h2>
-        <p>{{ $store->address }}</p>
+        <p>商家地址：{{ $store->address }}</p>
+        <p>聯絡電話：{{ $store->phone }}</p>
     </div>
     <div class="row g-4">
         @forelse($store->bikes as $bike)

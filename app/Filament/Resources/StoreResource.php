@@ -45,6 +45,11 @@ class StoreResource extends Resource
                     ->label('商店地址')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('phone')
+                    ->label('聯絡電話')
+                    ->tel()
+                    ->required()
+                    ->maxLength(20),
                 Forms\Components\Select::make('manager_id')
                     ->label('商店主管')
                     ->relationship('manager', 'name')
@@ -93,6 +98,9 @@ class StoreResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('address')
                     ->label('商店地址')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('phone')
+                    ->label('聯絡電話')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('manager.name')
                     ->label('商店主管')

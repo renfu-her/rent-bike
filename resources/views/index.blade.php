@@ -53,19 +53,19 @@
 <div class="row text-center mb-5">
     <h3 class="mb-4">我們的特色</h3>
     <div class="col-6 col-md-3 mb-4">
-        <img src="https://www.zocha.com.tw/static/元素_特色01-min.png" class="mb-2" style="height:48px;">
+        <img src="{{ asset('images/feature/feature-1.png') }}" class="mb-2" style="height:150px;">
         <div>簡單<br><span class="text-muted">輕鬆簡單的操作介面</span></div>
     </div>
     <div class="col-6 col-md-3 mb-4">
-        <img src="https://www.zocha.com.tw/static/元素n150_特色02-min.png" class="mb-2" style="height:48px;">
+        <img src="{{ asset('images/feature/feature-2.png') }}" class="mb-2" style="height:150px;">
         <div>快速<br><span class="text-muted">快速流暢的租車體驗</span></div>
     </div>
     <div class="col-6 col-md-3 mb-4">
-        <img src="https://www.zocha.com.tw/static/元素_特色03-min.png" class="mb-2" style="height:48px;">
+        <img src="{{ asset('images/feature/feature-3.png') }}" class="mb-2" style="height:150px;">
         <div>透明<br><span class="text-muted">透明公開的租車資訊</span></div>
     </div>
     <div class="col-6 col-md-3 mb-4">
-        <img src="https://www.zocha.com.tw/static/元素_特色04-min.png" class="mb-2" style="height:48px;">
+        <img src="{{ asset('images/feature/feature-4.png') }}" class="mb-2" style="height:150px;">
         <div>安全<br><span class="text-muted">安全保障的旅遊體驗</span></div>
     </div>
 </div>
@@ -85,7 +85,10 @@
             @endif
             <div class="card-body">
                 <h5 class="card-title">{{ $store->name }}</h5>
-                <p class="card-text text-muted">{{ $store->address }}</p>
+                <p class="card-text text-muted">
+                    <i class="fa-solid fa-location-dot me-1"></i> {{ $store->address }}<br>
+                    <i class="fa-solid fa-phone me-1"></i> {{ $store->phone }}
+                </p>
                 <a href="{{ route('store.detail', $store) }}" class="btn btn-primary">查看車款</a>
             </div>
         </div>
