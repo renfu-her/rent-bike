@@ -32,19 +32,19 @@
 <div class="row text-center mb-5">
     <h3 class="mb-4">租借很簡單 4 步驟</h3>
     <div class="col-6 col-md-3 mb-4">
-        <img src="https://www.zocha.com.tw/static/元素_步驟01-min.png" class="mb-2" style="height:64px;">
+        <img src="{{ asset('images/flow/flow-1.png') }}" class="mb-2" style="height:150px;">
         <div>選擇旅遊地點</div>
     </div>
     <div class="col-6 col-md-3 mb-4">
-        <img src="https://www.zocha.com.tw/static/元素_步驟02-min.png" class="mb-2" style="height:64px;">
+        <img src="{{ asset('images/flow/flow-2.png') }}" class="mb-2" style="height:150px;">
         <div>選擇租借時間</div>
     </div>
     <div class="col-6 col-md-3 mb-4">
-        <img src="https://www.zocha.com.tw/static/元素_步驟03-min.png" class="mb-2" style="height:64px;">
+        <img src="{{ asset('images/flow/flow-3.png') }}" class="mb-2" style="height:150px;">
         <div>立即預約付訂</div>
     </div>
     <div class="col-6 col-md-3 mb-4">
-        <img src="https://www.zocha.com.tw/static/元素_步驟04-min.png" class="mb-2" style="height:64px;">
+        <img src="{{ asset('images/flow/flow-4.png') }}" class="mb-2" style="height:150px;">
         <div>前往門市取車</div>
     </div>
 </div>
