@@ -9,8 +9,8 @@
         @foreach($carousels as $index => $carousel)
         <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
             <img src="{{ asset('storage/' . $carousel->image) }}" class="d-block w-100" alt="{{ $carousel->title }}" style="height: 600px; object-fit: cover;">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>{{ $carousel->title }}</h5>
+            <div class="carousel-caption d-none d-md-block" style="top:50%; bottom:auto; transform:translateY(-50%);">
+                <h5 style="font-size:32px; color:#fff; text-align:center; -webkit-text-stroke: 1px #333; text-shadow: 2px 2px 8px #000, 0 0 2px #000; font-weight:bold; display:inline-block; padding:0.25em 1em; border-radius:0.5em;">{{ $carousel->title }}</h5>
                 @if($carousel->url)
                 <a href="{{ $carousel->url }}" class="btn btn-light">了解更多</a>
                 @endif
@@ -18,12 +18,12 @@
         </div>
         @endforeach
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev" style="width: 48px; height: 48px; background: #fff; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+        <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1);"></span>
         <span class="visually-hidden">上一張</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next" style="width: 48px; height: 48px; background: #fff; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+        <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(1);"></span>
         <span class="visually-hidden">下一張</span>
     </button>
 </div>
