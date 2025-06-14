@@ -8,6 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome 6 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ asset('css/custom.css?v=' . time()) }}" rel="stylesheet">
+    
     <style>
         body { background: #f8f9fa; }
         .navbar-brand { font-weight: bold; }
@@ -44,7 +47,7 @@
     @yield('content')
 </main>
 
-<footer class="main-footer text-center">
+<footer class="main-footer text-center" style="background-color: #3AC0D2 !important;">
     <div class="container">
         <div class="mb-2">
             <a href="/">首頁</a> | <a href="/bikes">機車出租</a> | <a href="/login">登入</a>

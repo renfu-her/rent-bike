@@ -1,0 +1,8 @@
+a {
+    color: #fff !important;
+    text-decoration: none !important;
+}
+a:hover, a:focus {
+    color: #fff !important;
+    text-decoration: underline;
+}
