@@ -17,7 +17,8 @@ return new class extends Migration
             $table->dateTime('issued_time');
             $table->decimal('amount', 10, 2);
             $table->boolean('is_resolved')->default(false);
-            $table->foreignId('related_order_id')->nullable()->constrained('orders');
+            $table->unsignedBigInteger('related_order_id')->nullable();
+            $table->foreign('related_order_id')->references('order_id')->on('orders');
             $table->timestamps();
         });
     }
