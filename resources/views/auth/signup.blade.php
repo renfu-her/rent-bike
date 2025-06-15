@@ -33,12 +33,12 @@
                 <a href="{{ route('login') }}" class="small text-decoration-underline">已經有帳號了？登入</a>
             </div>
         </form>
-        <div class="text-center text-muted mb-2">或使用以下方式註冊</div>
+        {{-- <div class="text-center text-muted mb-2">或使用以下方式註冊</div>
         <div class="d-flex gap-2">
             <button class="btn btn-outline-light border w-100 d-flex align-items-center justify-content-center" type="button" disabled style="background:#fff;"><i class="fa-brands fa-google text-danger me-2"></i>Google</button>
             <button class="btn btn-outline-light border w-100 d-flex align-items-center justify-content-center" type="button" disabled style="background:#fff;"><i class="fa-brands fa-facebook text-primary me-2"></i>Facebook</button>
             <button class="btn btn-outline-light border w-100 d-flex align-items-center justify-content-center" type="button" disabled style="background:#fff;"><i class="fa-brands fa-twitter text-info me-2"></i>Twitter</button>
-        </div>
+        </div> --}}
     </div>
 </div>
 @endsection 

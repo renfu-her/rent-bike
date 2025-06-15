@@ -29,6 +29,14 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
+        $user = User::where('role', 'user')->first();
+        if (!$user) {
+            return back()->withErrors([
+                'login' => '帳號或密碼錯誤',
+            ])->withInput();
+        }
+        
+
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
             return redirect()->intended('/');
