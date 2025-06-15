@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('bikes', function (Blueprint $table) {
             $table->id('bike_id');
-            $table->foreignId('store_id')->constrained('stores');
+            $table->foreignId('store_id')->constrained('stores', 'store_id');
             $table->string('plate_no')->unique();
             $table->string('model');
             $table->enum('status', ['available', 'rented', 'maintenance', 'disabled'])->default('available');
