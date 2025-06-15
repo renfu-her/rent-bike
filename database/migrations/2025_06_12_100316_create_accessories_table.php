@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('accessories', function (Blueprint $table) {
             $table->id('accessory_id');
-            $table->foreignId('bike_id')->constrained('bikes');
+            $table->foreignId('bike_id')->constrained('bikes', 'bike_id');
             $table->integer('helmet_count')->default(2);
             $table->boolean('has_lock')->default(true);
             $table->boolean('has_toolkit')->default(true);
