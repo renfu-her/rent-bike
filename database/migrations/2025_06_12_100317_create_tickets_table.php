@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id('ticket_id');
-            $table->foreignId('bike_id')->constrained('bikes');
+            $table->foreignId('bike_id')->constrained('bikes', 'bike_id');
             $table->dateTime('issued_time');
             $table->decimal('amount', 10, 2);
             $table->boolean('is_resolved')->default(false);
