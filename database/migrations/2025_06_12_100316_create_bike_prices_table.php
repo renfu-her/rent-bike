@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('bike_prices', function (Blueprint $table) {
             $table->id('price_id');
-            $table->foreignId('bike_id')->constrained('bikes');
+            $table->foreignId('bike_id')->constrained('bikes', 'bike_id');
             $table->integer('rental_days');
             $table->decimal('price_amount', 10, 2);
             $table->timestamps();
