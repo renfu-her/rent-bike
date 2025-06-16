@@ -12,3 +12,4 @@ Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
 Route::get('/signup', [LoginController::class, 'showSignUp'])->name('signup');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/signup', [LoginController::class, 'signUp']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

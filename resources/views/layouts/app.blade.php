@@ -17,6 +17,10 @@
         .nav-link.active { color: #f8b803 !important; }
         .main-footer { background: #222; color: #fff; padding: 2rem 0; margin-top: 3rem; }
         .main-footer a { color: #f8b803; }
+        .avatar-circle {
+            width: 38px; height: 38px; border-radius: 50%; background: #e0e0e0; display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; color: #555; cursor: pointer;
+        }
     </style>
     @stack('styles')
 </head>
@@ -28,16 +32,36 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse main-menu" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item">
                     <a class="nav-link @if(request()->is('/')) active @endif" href="/">首頁</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link @if(request()->is('bikes*')) active @endif" href="/bikes"><i class="fa-solid fa-motorcycle me-1"></i>機車出租</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link @if(request()->is('login')) active @endif" href="/login"><i class="fa-solid fa-right-to-bracket me-1"></i>登入</a>
-                </li>
+                @if(Auth::check())
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="avatar-circle me-1">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="/bikes"><i class="fa-solid fa-motorcycle me-1"></i>出租的車</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="{{ url('/logout') }}" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item"><i class="fa-solid fa-right-from-bracket me-1"></i>登出</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link @if(request()->is('login')) active @endif" href="/login"><i class="fa-solid fa-right-to-bracket me-1"></i>登入</a>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

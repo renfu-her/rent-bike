@@ -7,8 +7,8 @@ a:hover, a:focus {
     text-decoration: underline;
 }
 
-.main-menu a {
-    color: #fff !important;
+.nav-link {
+    color: #fff;
 }
 
 .main-menu a:hover, .main-menu a:focus {
