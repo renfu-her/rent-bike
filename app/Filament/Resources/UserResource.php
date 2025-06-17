@@ -22,11 +22,11 @@ class UserResource extends Resource
     
     protected static ?string $navigationGroup = '系統管理';
     
-    protected static ?string $navigationLabel = '使用者管理';
+    protected static ?string $navigationLabel = '管理員管理';
     
-    protected static ?string $modelLabel = '使用者';
+    protected static ?string $modelLabel = '管理員';
     
-    protected static ?string $pluralModelLabel = '使用者';
+    protected static ?string $pluralModelLabel = '管理員';
     
     protected static ?int $navigationSort = 1;
 
@@ -56,8 +56,6 @@ class UserResource extends Resource
                     ->options([
                         'super_admin' => '最高管理者',
                         'store_manager' => '商店主管',
-                        'staff' => '店內員工',
-                        'user' => '一般使用者',
                     ])
                     ->required()
                     ->default('user'),
@@ -79,8 +77,6 @@ class UserResource extends Resource
                     ->options([
                         'super_admin' => '最高管理者',
                         'store_manager' => '商店主管',
-                        'staff' => '店內員工',
-                        'user' => '一般使用者',
                     ]),
                 Tables\Columns\TextColumn::make('managedStore.name')
                     ->label('管理的商店')
