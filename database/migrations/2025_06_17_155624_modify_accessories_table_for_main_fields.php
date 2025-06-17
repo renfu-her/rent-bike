@@ -22,7 +22,7 @@ return new class extends Migration
             }
             // 新增必要欄位
             if (!Schema::hasColumn('accessories', 'name')) {
-                $table->string('name')->after('id');
+                $table->string('name')->after('accessory_id');
             }
             if (!Schema::hasColumn('accessories', 'price')) {
                 $table->decimal('price', 10, 2)->default(0)->after('name');
