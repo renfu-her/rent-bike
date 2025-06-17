@@ -32,18 +32,25 @@
                                 @default <span class="badge bg-light text-dark">{{ $bike->status }}</span>
                             @endswitch
                         </p>
-                        @if(is_array($bike->accessories))
-                            <div class="mt-2">
-                                <strong>配件：</strong>
+                        @php $accessoryBikes = $bike->accessoryBikes ?? []; @endphp
+                        <div class="mt-2">
+                            <strong>配件：</strong>
+                            @if(count($accessoryBikes) > 0)
                                 <ul class="list-unstyled mb-0">
-                                    @foreach($bike->accessories as $acc)
-                                        <li>{{ $acc['name'] ?? '' }} x{{ $acc['qty'] ?? 0 }}
-                                            @if(!empty($acc['enabled']))<span class="badge bg-info text-dark ms-1">啟用</span>@endif
-                                        </li>
+                                    @foreach($accessoryBikes as $ab)
+                                        @if($ab->status)
+                                            <li>{{ $ab->accessory->name ?? '' }} x {{ $ab->qty ?? 0 }}
+                                            </li>
+                                        @endif
                                     @endforeach
                                 </ul>
-                            </div>
-                        @endif
+                                @if($accessoryBikes->where('status', 1)->count() == 0)
+                                    <span class="text-muted">沒有配件</span>
+                                @endif
+                            @else
+                                <span class="text-muted">沒有配件</span>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>

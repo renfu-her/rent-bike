@@ -24,7 +24,7 @@ class StoreController extends Controller
     public function detail(Store $store)
     {
         $bikes = $store->bikes()
-            ->with(['prices', 'accessories'])
+            ->with(['prices', 'accessoryBikes.accessory'])
             ->where('status', 'available')
             ->get();
 
