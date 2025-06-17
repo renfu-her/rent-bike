@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use App\Models\Accessory;
 
 class BikeResource extends Resource
 {
@@ -89,29 +90,6 @@ class BikeResource extends Resource
                         'disabled' => '停用',
                     ])
                     ->required(),
-                Forms\Components\Group::make()
-                    ->label('配件')
-                    ->schema([
-                        Forms\Components\Repeater::make('accessories')
-                            ->label('配件列表')
-                            ->schema([
-                                Forms\Components\TextInput::make('name')->label('配件名稱')->required(),
-                                Forms\Components\TextInput::make('qty')->label('數量')->numeric()->default(0),
-                                Forms\Components\TextInput::make('price')->label('費用')->numeric()->default(0),
-                                Forms\Components\Toggle::make('enabled')->label('啟用')->default(false),
-                            ])
-                            ->default([
-                                ['name' => '安全帽', 'qty' => 2, 'price' => 0, 'enabled' => true],
-                                ['name' => '帽套', 'qty' => 2, 'price' => 0, 'enabled' => false],
-                                ['name' => '手機架', 'qty' => 1, 'price' => 0, 'enabled' => false],
-                                ['name' => '電池', 'qty' => 0, 'price' => 0, 'enabled' => false],
-                                ['name' => '雨衣', 'qty' => 2, 'price' => 50, 'enabled' => false],
-                            ])
-                            ->columns(4)
-                            ->minItems(1)
-                            ->maxItems(10)
-                            ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
-                    ]),
             ]);
     }
 
@@ -207,6 +185,7 @@ class BikeResource extends Resource
     {
         return [
             RelationManagers\PricesRelationManager::class,
+            RelationManagers\AccessoriesRelationManager::class,
         ];
     }
 

@@ -21,4 +21,23 @@ class EditBike extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['accessory_items_sync'] = $data['accessory_items'] ?? [];
+        unset($data['accessory_items']);
+        return $data;
+    }
+
+    protected function afterSave($record, array $data): void
+    {
+        $syncData = [];
+        foreach ($data['accessory_items_sync'] ?? [] as $item) {
+            $syncData[$item['accessory_id']] = [
+                'qty' => $item['qty'],
+                'price' => $item['price'],
+            ];
+        }
+        $record->accessories()->sync($syncData);
+    }
 }

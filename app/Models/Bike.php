@@ -48,8 +48,15 @@ class Bike extends Model
         return $this->hasMany(Ticket::class, 'bike_id', 'bike_id');
     }
 
-    public function accessories(): HasOne
+    public function accessories()
     {
-        return $this->hasOne(Accessory::class, 'bike_id', 'bike_id');
+        return $this->belongsToMany(Accessory::class, 'accessory_bike', 'bike_id', 'accessory_id')
+            ->withPivot('qty', 'price', 'status')
+            ->withTimestamps();
+    }
+
+    public function accessoryBikes()
+    {
+        return $this->hasMany(AccessoryBike::class, 'bike_id', 'bike_id');
     }
 }

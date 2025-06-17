@@ -12,10 +12,9 @@ class Accessory extends Model
     protected $primaryKey = 'accessory_id';
 
     protected $fillable = [
-        'bike_id',
-        'helmet_count',
-        'has_lock',
-        'has_toolkit',
+        'name',
+        'price',
+        'qty',
     ];
 
     protected $casts = [
@@ -26,6 +25,18 @@ class Accessory extends Model
 
     public function bike()
     {
-        return $this->belongsTo(Bike::class);
+        return $this->belongsTo(Bike::class, 'bike_id', 'bike_id');
+    }
+
+    public function bikes()
+    {
+        return $this->belongsToMany(Bike::class, 'accessory_bike', 'accessory_id', 'bike_id')
+            ->withPivot('qty', 'price', 'status')
+            ->withTimestamps();
+    }
+
+    public function accessoryBikes()
+    {
+        return $this->hasMany(AccessoryBike::class, 'accessory_id', 'accessory_id');
     }
 }

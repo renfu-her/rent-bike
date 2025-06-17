@@ -17,45 +17,35 @@ class AccessoryResource extends Resource
 {
     protected static ?string $model = Accessory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
+    protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
     
     protected static ?string $navigationGroup = '商店管理';
     
-    protected static ?string $navigationLabel = '配件管理';
+    protected static ?string $navigationLabel = '機車配件';
     
-    protected static ?string $modelLabel = '配件';
+    protected static ?string $modelLabel = '機車配件';
     
-    protected static ?string $pluralModelLabel = '配件';
+    protected static ?string $pluralModelLabel = '機車配件';
     
     protected static ?int $navigationSort = 3;
-
-    public static function shouldRegisterNavigation(): bool
-    {
-        return false;
-    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('bike_id')
-                    ->label('所屬機車')
-                    ->relationship('bike', 'plate_no')
+                Forms\Components\TextInput::make('name')
+                    ->label('配件名稱')
                     ->required(),
-                Forms\Components\TextInput::make('helmet_count')
-                    ->label('安全帽數量')
-                    ->required()
+                Forms\Components\TextInput::make('price')
+                    ->label('價格')
                     ->numeric()
-                    ->default(2)
-                    ->minValue(0),
-                Forms\Components\Toggle::make('has_lock')
-                    ->label('附鎖')
-                    ->required()
-                    ->default(true),
-                Forms\Components\Toggle::make('has_toolkit')
-                    ->label('附維修工具')
-                    ->required()
-                    ->default(true),
+                    ->default(0)
+                    ->required(),
+                Forms\Components\TextInput::make('qty')
+                    ->label('數量')
+                    ->numeric()
+                    ->default(0)
+                    ->required(),
             ]);
     }
 
@@ -63,29 +53,13 @@ class AccessoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('bike.plate_no')
-                    ->label('所屬機車')
+                Tables\Columns\TextColumn::make('name')
+                    ->label('配件名稱')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('helmet_count')
-                    ->label('安全帽數量')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\IconColumn::make('has_lock')
-                    ->label('附鎖')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('has_toolkit')
-                    ->label('附維修工具')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('建立時間')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('更新時間')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('price')
+                    ->label('價格'),
+                Tables\Columns\TextColumn::make('qty')
+                    ->label('數量'),
             ])
             ->filters([
                 //
@@ -95,9 +69,7 @@ class AccessoryResource extends Resource
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
