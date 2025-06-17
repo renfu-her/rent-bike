@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('accessory_bike', function (Blueprint $table) {
             $table->id();
             $table->foreignId('bike_id')->constrained('bikes', 'bike_id')->onDelete('cascade');
-            $table->foreignId('accessory_id')->constrained('accessories')->onDelete('cascade');
+            $table->foreignId('accessory_id')->constrained('accessories', 'accessory_id')->onDelete('cascade');
             $table->integer('qty')->default(1);
             $table->decimal('price', 10, 2)->default(0);
             $table->boolean('status')->default(true); // 啟用/停用
