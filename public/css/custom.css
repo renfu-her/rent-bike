@@ -23,3 +23,7 @@ a:hover, a:focus {
 .main-footer a {
     color: #ddd !important;
 }
+
+.card-text a:hover, .card-text a:focus {
+    color: #fff;
+}
