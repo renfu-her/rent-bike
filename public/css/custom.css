@@ -24,6 +24,6 @@ a:hover, a:focus {
     color: #ddd !important;
 }
 
-.card-text a:hover, .card-text a:focus {
+.card-body a:hover, .card-body a:focus {
     color: #fff;
 }
