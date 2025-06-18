@@ -25,5 +25,5 @@ a:hover, a:focus {
 }
 
 .card-body a:hover, .card-body a:focus {
-    color: #fff;
+    color: #fff !important;
 }
