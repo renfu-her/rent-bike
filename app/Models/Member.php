@@ -14,6 +14,8 @@ class Member extends Authenticatable
         'phone',
         'address',
         'status',
+        'id_number',
+        'gender',
     ];
 
     protected $casts = [

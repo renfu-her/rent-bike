@@ -98,19 +98,7 @@
     </div>
 </div>
 
-@push('scripts')
-<script>
-    // 可根據 data-bike-id 帶入不同內容
-    $(document).on('show.bs.modal', '#rentModal', function (event) {
-        var button = $(event.relatedTarget);
-        var bikeId = button.data('bike-id');
-        // 這裡可根據 bikeId 動態載入內容
-        $('#rentModal .modal-title').text('我要出租 - 車輛ID：' + bikeId);
-    });
-</script>
-@endpush
-
-<!-- Modal 靜態內容，之後可換成多步驟表單 -->
+<!-- Modal 多步驟表單 -->
 <div class="modal fade" id="rentModal" tabindex="-1" aria-labelledby="rentModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -119,13 +107,123 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="text-center py-4">
-          <i class="fa-solid fa-motorcycle fa-3x mb-3 text-main"></i>
-          <div class="mb-2">這裡是多步驟租車表單的彈窗（靜態內容）</div>
-          <div class="text-muted">（之後可串接真實表單）</div>
+        <!-- 商店與機車資訊 -->
+        <div class="mb-3" id="modalStoreInfo">
+          <div class="fw-bold text-main" id="modalStoreName">{{ $store->name }}</div>
+          <div class="small text-muted" id="modalStorePhone"><i class="fa fa-phone me-1"></i>{{ $store->phone }}</div>
+          <div class="small text-muted" id="modalStoreAddress"><i class="fa fa-location-dot me-1"></i>{{ $store->address }}</div>
+          <div class="mt-2" id="modalBikeName"><span class="badge bg-info text-dark">機車：<span id="modalBikeModel"></span></span></div>
         </div>
+        <!-- 多步驟表單內容 -->
+        <form id="rentForm">
+          <div class="step step-1">
+            <div class="text-main fw-bold mb-2">基本資料(1/3)</div>
+            <div class="mb-2">
+              <label class="form-label">身份證號</label>
+              <input type="text" class="form-control" name="id_number">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">姓名</label>
+              <input type="text" class="form-control" name="name">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">電話號碼</label>
+              <input type="text" class="form-control" name="phone">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">電子郵件</label>
+              <input type="email" class="form-control" name="email">
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+              <button type="button" class="btn btn-warning next-step w-100">下一步</button>
+            </div>
+          </div>
+          <div class="step step-2 d-none">
+            <div class="text-main fw-bold mb-2">時間選擇(2/3)</div>
+            <div class="mb-2">
+              <label class="form-label">租借類型</label>
+              <select class="form-select" name="rent_type">
+                <option>日租</option>
+                <option>時租</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <label class="form-label">門市</label>
+              <select class="form-select" name="store">
+                <option>{{ $store->name }}</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <label class="form-label">取車時間</label>
+              <input type="date" class="form-control mb-1" name="pickup_date">
+              <input type="time" class="form-control" name="pickup_time">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">還車時間</label>
+              <input type="date" class="form-control mb-1" name="return_date">
+              <input type="time" class="form-control" name="return_time">
+            </div>
+            <div class="d-flex justify-content-between mt-3">
+              <button type="button" class="btn btn-secondary prev-step w-50 me-2">上一步</button>
+              <button type="button" class="btn btn-warning next-step w-50">下一步</button>
+            </div>
+          </div>
+          <div class="step step-3 d-none">
+            <div class="text-main fw-bold mb-2">確認資料(3/3)</div>
+            <div class="mb-3">請確認您的資料無誤後送出預約。</div>
+            <!-- 這裡可顯示所有填寫資料的 summary -->
+            <div id="summaryBox" class="mb-3"></div>
+            <div class="d-flex justify-content-between mt-3">
+              <button type="button" class="btn btn-secondary prev-step w-50 me-2">上一步</button>
+              <button type="submit" class="btn btn-success w-50">送出預約</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 </div>
 @endsection 
+
+@push('scripts')
+<script>
+    // 動態帶入機車名稱
+    $(document).on('show.bs.modal', '#rentModal', function (event) {
+        var button = $(event.relatedTarget);
+        var bikeId = button.data('bike-id');
+        var bikeModel = button.closest('.card').find('.card-title').text();
+        $('#modalBikeModel').text(bikeModel);
+    });
+    // 多步驟切換
+    $(function(){
+      var step = 1;
+      function showStep(n) {
+        $('.step').addClass('d-none');
+        $('.step-' + n).removeClass('d-none');
+      }
+      $(document).on('click', '.next-step', function(){
+        if(step < 3) step++;
+        showStep(step);
+        if(step === 3) {
+          // summary
+          var summary = '';
+          $('#rentForm').serializeArray().forEach(function(item){
+            summary += '<div><strong>' + item.name + '：</strong>' + item.value + '</div>';
+          });
+          $('#summaryBox').html(summary);
+        }
+      });
+      $(document).on('click', '.prev-step', function(){
+        if(step > 1) step--;
+        showStep(step);
+      });
+      // reset step on modal close
+      $('#rentModal').on('hidden.bs.modal', function(){
+        step = 1;
+        showStep(step);
+        $('#rentForm')[0].reset();
+        $('#summaryBox').empty();
+      });
+    });
+</script>
+@endpush

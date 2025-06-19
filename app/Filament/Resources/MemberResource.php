@@ -33,7 +33,19 @@ class MemberResource extends Resource
                 Forms\Components\TextInput::make('email')->label('電子郵件')->email()->required(),
                 Forms\Components\TextInput::make('phone')->label('電話')->tel(),
                 Forms\Components\TextInput::make('address')->label('地址'),
-                Forms\Components\TextInput::make('password')->label('密碼')->password()->required()->dehydrateStateUsing(fn($state) => bcrypt($state)),
+                Forms\Components\TextInput::make('id_number')
+                    ->label('身份證字號')
+                    ->extraAttributes(['oninput' => 'this.value = this.value.toUpperCase()'])
+                    ->dehydrateStateUsing(fn($state) => strtoupper($state)),
+                Forms\Components\Select::make('gender')->label('性別')->options(['男'=>'男','女'=>'女']),
+                Forms\Components\TextInput::make('password')
+                    ->label('密碼')
+                    ->password()
+                    ->dehydrateStateUsing(fn($state) => filled($state) ? bcrypt($state) : null)
+                    ->required(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
+                    ->nullable()
+                    ->hiddenOn('view')
+                    ->dehydrated(fn($state) => filled($state)),
                 Forms\Components\Select::make('status')->label('狀態')->options([
                     1 => '啟用',
                     0 => '停用',
@@ -49,7 +61,15 @@ class MemberResource extends Resource
                 Tables\Columns\TextColumn::make('name')->label('姓名'),
                 Tables\Columns\TextColumn::make('email')->label('電子郵件'),
                 Tables\Columns\TextColumn::make('phone')->label('電話'),
-                Tables\Columns\TextColumn::make('status')->label('狀態'),
+                Tables\Columns\TextColumn::make('id_number')->label('身份證字號'),
+                Tables\Columns\TextColumn::make('gender')->label('性別'),
+                Tables\Columns\IconColumn::make('status')
+                    ->label('狀態')
+                    ->boolean(fn($state) => $state == 1)
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('secondary'),
             ])
             ->filters([])
             ->actions([
@@ -77,4 +97,5 @@ class MemberResource extends Resource
             'edit' => Pages\EditMember::route('/{record}/edit'),
         ];
     }
+
 }
