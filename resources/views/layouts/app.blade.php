@@ -36,9 +36,6 @@
                 <li class="nav-item">
                     <a class="nav-link @if(request()->is('/')) active @endif" href="/">首頁</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link @if(request()->is('bikes*')) active @endif" href="/bikes"><i class="fa-solid fa-motorcycle me-1"></i>機車出租</a>
-                </li>
                 @if(Auth::check())
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
