@@ -8,6 +8,7 @@
         <h3 class="fw-bold mb-3">登入</h3>
         <form method="POST" action="{{ url('/login') }}">
             @csrf
+            <input type="hidden" name="return" value="{{ request('return') }}">
             @if($errors->has('login'))
                 <div class="alert alert-danger">{{ $errors->first('login') }}</div>
             @endif

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -29,17 +29,16 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        $user = User::where('role', 'user')->first();
-        if (!$user) {
+        $member = Member::where('email', $credentials['email'])->first();
+        if (!$member) {
             return back()->withErrors([
                 'login' => '帳號或密碼錯誤',
             ])->withInput();
         }
-        
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        if (Auth::guard('member')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+            return redirect($request->input('return') ?: '/');
         }
 
         return back()->withErrors([
@@ -56,14 +55,14 @@ class LoginController extends Controller
             'password' => ['required', 'min:6', 'confirmed'],
         ]);
 
-        $user = User::create([
+        $member = Member::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role' => 'user',
         ]);
 
-        Auth::login($user);
+        Auth::guard('member')->login($member);
         return redirect('/');
     }
 

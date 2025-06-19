@@ -36,7 +36,7 @@
                 <li class="nav-item">
                     <a class="nav-link @if(request()->is('/')) active @endif" href="/">首頁</a>
                 </li>
-                @if(Auth::check())
+                @if(Auth::guard('member')->check())
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="avatar-circle me-1">
@@ -56,7 +56,7 @@
                     </li>
                 @else
                     <li class="nav-item">
-                        <a class="nav-link @if(request()->is('login')) active @endif" href="/login"><i class="fa-solid fa-right-to-bracket me-1"></i>登入</a>
+                        <a class="nav-link @if(request()->is('login')) active @endif" href="/login?return=/"><i class="fa-solid fa-right-to-bracket me-1"></i>登入</a>
                     </li>
                 @endif
             </ul>

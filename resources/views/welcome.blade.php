@@ -27,7 +27,7 @@
                     <a class="nav-link" href="/bikes"><i class="fa-solid fa-motorcycle me-1"></i>機車出租</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/login"><i class="fa-solid fa-right-to-bracket me-1"></i>登入</a>
+                    <a class="nav-link" href="/login?return=/"><i class="fa-solid fa-right-to-bracket me-1"></i>登入</a>
                 </li>
             </ul>
         </div>
