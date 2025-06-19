@@ -56,7 +56,7 @@
                         <div class="mt-auto pt-3">
                             @switch($bike->status)
                                 @case('available')
-                                    @if(auth()->check())
+                                    @if(Auth::guard('member')->check())
                                         <button class="btn btn-primary w-100 rent-btn" style="background-color: #3AC0D2; border-color: #3AC0D2;" data-bs-toggle="modal" data-bs-target="#rentModal" data-bike-id="{{ $bike->id }}">
                                             <i class="fa-solid fa-motorcycle me-2"></i>我要出租
                                         </button>
