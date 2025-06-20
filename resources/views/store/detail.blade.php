@@ -57,7 +57,10 @@
                                     <div class="mt-1">
                                         @foreach ($bike->prices->sortBy('rental_days') as $price)
                                             @php
-                                                $totalPrice = $price->final_price + ($bike->accessories_price ?? 0);
+                                                $accessoriesPrice = $bike->accessoryBikes
+                                                    ->where('status', 1)
+                                                    ->sum(fn ($item) => $item->price * $item->qty);
+                                                $totalPrice = $price->final_price + $accessoriesPrice;
                                             @endphp
                                             <span class="badge bg-light text-dark me-1 mb-1 fs-6">
                                                 {{ $price->rental_days }}天: <strong
