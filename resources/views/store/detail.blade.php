@@ -32,6 +32,23 @@
                                 @default <span class="badge bg-light text-dark">{{ $bike->status }}</span>
                             @endswitch
                         </p>
+                        <div class="mb-2">
+                            <strong>租賃方案：</strong>
+                            @if($bike->prices->isNotEmpty())
+                                <div class="mt-1">
+                                    @foreach($bike->prices->sortBy('rental_days') as $price)
+                                        @php
+                                            $totalPrice = $price->final_price + ($bike->accessories_price ?? 0);
+                                        @endphp
+                                        <span class="badge bg-light text-dark me-1 mb-1 fs-6">
+                                            {{ $price->rental_days }}天: <strong class="text-danger">${{ number_format($totalPrice) }}</strong>
+                                        </span>
+                                    @endforeach
+                                </div>
+                            @else
+                                <span class="text-muted ms-2">暫無報價</span>
+                            @endif
+                        </div>
                         @php $accessoryBikes = $bike->accessoryBikes ?? []; @endphp
                         <div class="mt-2">
                             <strong>配件：</strong>
@@ -120,19 +137,19 @@
             <div class="text-main fw-bold mb-2">基本資料(1/3)</div>
             <div class="mb-2">
               <label class="form-label">身份證號</label>
-              <input type="text" class="form-control" name="id_number">
+              <input type="text" class="form-control" name="id_number" value="{{ $member->id_number ?? '' }}">
             </div>
             <div class="mb-2">
               <label class="form-label">姓名</label>
-              <input type="text" class="form-control" name="name">
+              <input type="text" class="form-control" name="name" value="{{ $member->name ?? '' }}">
             </div>
             <div class="mb-2">
               <label class="form-label">電話號碼</label>
-              <input type="text" class="form-control" name="phone">
+              <input type="text" class="form-control" name="phone" value="{{ $member->phone ?? '' }}">
             </div>
             <div class="mb-2">
               <label class="form-label">電子郵件</label>
-              <input type="email" class="form-control" name="email">
+              <input type="email" class="form-control" name="email" value="{{ $member->email ?? '' }}">
             </div>
             <div class="d-flex justify-content-end mt-3">
               <button type="button" class="btn btn-warning next-step w-100">下一步</button>
