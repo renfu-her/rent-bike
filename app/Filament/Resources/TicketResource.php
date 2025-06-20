@@ -55,7 +55,11 @@ class TicketResource extends Resource
                             ->required(),
                         Forms\Components\Select::make('related_order_id')
                             ->label('關聯訂單編號')
-                            ->relationship(name: 'relatedOrder', titleAttribute: 'order_number', modifyQueryUsing: fn (Builder $query) => $query->with('member'))
+                            ->relationship(
+                                name: 'relatedOrder', 
+                                titleAttribute: 'order_number', 
+                                modifyQueryUsing: fn (Builder $query) => $query->with('member')->where('status', 'completed')
+                            )
                             ->getOptionLabelFromRecordUsing(fn (Order $record) => "{$record->order_number} (會員: {$record->member?->name})")
                             ->searchable(['order_number', 'member.name'])
                             ->preload(),
