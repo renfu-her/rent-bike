@@ -5,6 +5,9 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TicketResource\Pages;
 use App\Filament\Resources\TicketResource\RelationManagers;
 use App\Models\Ticket;
+use App\Models\Bike;
+use App\Models\Order;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -45,13 +48,17 @@ class TicketResource extends Resource
                             ->columnSpanFull(),
                         Forms\Components\Select::make('bike_id')
                             ->label('機車車牌')
-                            ->relationship('bike', 'plate_no')
-                            ->searchable()
+                            ->relationship(name: 'bike', titleAttribute: 'plate_no')
+                            ->getOptionLabelFromRecordUsing(fn (Bike $record) => "{$record->plate_no} ({$record->model})")
+                            ->searchable(['plate_no', 'model'])
+                            ->preload()
                             ->required(),
                         Forms\Components\Select::make('related_order_id')
                             ->label('關聯訂單編號')
-                            ->relationship('relatedOrder', 'order_number')
-                            ->searchable(),
+                            ->relationship(name: 'relatedOrder', titleAttribute: 'order_number', modifyQueryUsing: fn (Builder $query) => $query->with('member'))
+                            ->getOptionLabelFromRecordUsing(fn (Order $record) => "{$record->order_number} (會員: {$record->member?->name})")
+                            ->searchable(['order_number', 'member.name'])
+                            ->preload(),
                         Forms\Components\DateTimePicker::make('issued_time')
                             ->label('違規時間')
                             ->required(),
@@ -117,7 +124,9 @@ class TicketResource extends Resource
                         Forms\Components\Select::make('handler_id')
                             ->label('處理者')
                             ->relationship('handler', 'name')
-                            ->searchable(),
+                            ->getOptionLabelFromRecordUsing(fn (User $record) => "{$record->name} ({$record->email})")
+                            ->searchable(['name', 'email'])
+                            ->preload(),
                     ]),
             ]);
     }
