@@ -5,7 +5,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 
-Route::get('/', [StoreController::class, 'index'])->name('store.index');
+Route::get('/', [StoreController::class, 'index'])->name('home');
 
 Route::get('/store/{store}', [StoreController::class, 'detail'])->name('store.detail');
 

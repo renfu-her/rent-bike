@@ -30,7 +30,7 @@ class OrderController extends Controller
         $totalPrice = isset($matches[1]) ? (float)str_replace(',', '', $matches[1]) : 0;
 
         // 建立訂單
-        Order::create([
+        $order = Order::create([
             'bike_id' => $validated['bike_id'],
             'member_id' => Auth::guard('member')->id(),
             'rental_plan' => $validated['rental_plan'],
@@ -42,7 +42,10 @@ class OrderController extends Controller
             // ... 其他需要儲存的欄位
         ]);
 
-        // 訂單建立成功後，可以導向到感謝頁面或訂單列表
-        return redirect('/')->with('success', '預約成功！');
+        // 載入相關資料
+        $order->load(['bike.store']);
+
+        // 導向到成功頁面
+        return view('order.success', compact('order'));
     }
 } 

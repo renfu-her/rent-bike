@@ -33,7 +33,7 @@ class Order extends Model
 
     public function bike()
     {
-        return $this->belongsTo(Bike::class);
+        return $this->belongsTo(Bike::class, 'bike_id', 'bike_id');
     }
 
     public function user()
