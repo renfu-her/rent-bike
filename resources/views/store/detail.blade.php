@@ -31,6 +31,10 @@
                                         <span class="badge bg-success">待出租</span>
                                     @break
 
+                                    @case('pending')
+                                        <span class="badge bg-warning text-dark">預約中</span>
+                                    @break
+
                                     @case('rented')
                                         <span class="badge bg-warning text-dark">已出租</span>
                                     @break
@@ -102,6 +106,12 @@
                                                 <i class="fa-solid fa-motorcycle me-2"></i>我要出租
                                             </a>
                                         @endif
+                                    @break
+
+                                    @case('pending')
+                                        <button class="btn btn-warning w-100 text-dark" disabled>
+                                            <i class="fa-solid fa-clock me-2"></i>預約中
+                                        </button>
                                     @break
 
                                     @case('rented')

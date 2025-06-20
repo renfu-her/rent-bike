@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Order extends Model
 {
@@ -21,6 +22,7 @@ class Order extends Model
         'end_time',
         'status',
         'total_price',
+        'order_number',
     ];
 
     protected $casts = [
@@ -30,6 +32,41 @@ class Order extends Model
         'status' => 'string',
         'total_price' => 'decimal:2',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($order) {
+            if (empty($order->order_number)) {
+                $order->order_number = self::generateOrderNumber();
+            }
+        });
+    }
+
+    /**
+     * 生成訂單編號
+     */
+    public static function generateOrderNumber()
+    {
+        $today = Carbon::now()->format('Ymd');
+        $prefix = "RENT{$today}";
+        
+        // 取得今天的最後一個訂單編號
+        $lastOrder = self::where('order_number', 'like', $prefix . '%')
+            ->orderBy('order_number', 'desc')
+            ->first();
+        
+        if ($lastOrder) {
+            // 提取流水號並加1
+            $lastNumber = (int)substr($lastOrder->order_number, -4);
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+        
+        return $prefix . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
+    }
 
     public function bike()
     {

@@ -31,6 +31,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
+                                    <p><strong>訂單編號：</strong>{{ $order->order_number ?? 'N/A' }}</p>
                                     <p><strong>機車型號：</strong>{{ $order->bike->model ?? 'N/A' }}</p>
                                     <p><strong>租賃方案：</strong>{{ $order->rental_plan }}</p>
                                     <p><strong>預約日期：</strong>{{ $order->booking_date }}</p>

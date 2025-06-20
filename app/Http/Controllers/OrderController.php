@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Bike;
 
 class OrderController extends Controller
 {
@@ -71,8 +72,14 @@ class OrderController extends Controller
             'end_time' => $endTime,
             'status' => 'pending', // 預設為待處理
             'total_price' => $totalPrice,
-            // ... 其他需要儲存的欄位
+            // order_number 會自動生成
         ]);
+
+        // 更新機車狀態為 pending
+        $bike = Bike::find($validated['bike_id']);
+        if ($bike) {
+            $bike->update(['status' => 'pending']);
+        }
 
         // 載入相關資料
         $order->load(['bike.store']);

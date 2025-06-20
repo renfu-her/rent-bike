@@ -36,7 +36,7 @@
                                     <div class="mb-3">
                                         <p class="card-text mb-1">
                                             <strong>訂單編號：</strong>
-                                            <span class="text-muted">#{{ $order->order_id }}</span>
+                                            <span class="text-primary fw-bold">{{ $order->order_number ?? 'N/A' }}</span>
                                         </p>
                                         <p class="card-text mb-1">
                                             <strong>租賃方案：</strong>

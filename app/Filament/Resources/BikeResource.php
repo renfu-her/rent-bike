@@ -85,6 +85,7 @@ class BikeResource extends Resource
                     ->label('狀態')
                     ->options([
                         'available' => '待出租',
+                        'pending' => '預約中',
                         'rented' => '已出租',
                         'maintenance' => '維修中',
                         'disabled' => '停用',
@@ -115,10 +116,8 @@ class BikeResource extends Resource
                     ->formatStateUsing(fn (string $state): string => 
                         match($state) {
                             'available' => '待出租',
-                            'pending' => '待確認',
-                            'active' => '進行中',
-                            'completed' => '已租借',
-                            'cancelled' => '已取消',
+                            'pending' => '預約中',
+                            'rented' => '已出租',
                             'maintenance' => '維修中',
                             'disabled' => '停用',
                             default => $state,
@@ -129,9 +128,7 @@ class BikeResource extends Resource
                         match($state) {
                             'available' => 'success',
                             'pending' => 'warning',
-                            'active' => 'info',
-                            'completed' => 'success',
-                            'cancelled' => 'danger',
+                            'rented' => 'warning',
                             'maintenance' => 'danger',
                             'disabled' => 'gray',
                             default => 'gray',
@@ -153,6 +150,7 @@ class BikeResource extends Resource
                     ->label('狀態')
                     ->options([
                         'available' => '待出租',
+                        'pending' => '預約中',
                         'rented' => '已出租',
                         'maintenance' => '維修中',
                         'disabled' => '停用',
@@ -167,6 +165,7 @@ class BikeResource extends Resource
                             ->label('狀態')
                             ->options([
                                 'available' => '待出租',
+                                'pending' => '預約中',
                                 'rented' => '已出租',
                                 'maintenance' => '維修中',
                                 'disabled' => '停用',

@@ -33,6 +33,10 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\TextInput::make('order_number')
+                    ->label('訂單編號')
+                    ->disabled()
+                    ->dehydrated(false),
                 Forms\Components\Select::make('bike_id')
                     ->label('租借機車')
                     ->relationship('bike', 'plate_no')
@@ -75,6 +79,10 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('order_number')
+                    ->label('訂單編號')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('bike.plate_no')
                     ->label('租借機車')
                     ->searchable(),
