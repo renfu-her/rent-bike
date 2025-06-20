@@ -216,7 +216,8 @@
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label">預約日期</label>
-                                    <input type="date" class="form-control" name="booking_date" data-label="預約日期" value="{{ date('Y-m-d') }}">
+                                    <input type="date" class="form-control" name="booking_date" data-label="預約日期"
+                                        value="{{ date('Y-m-d') }}">
                                 </div>
                                 <div class="d-flex justify-content-between mt-3">
                                     <button type="button" class="btn btn-secondary prev-step w-50 me-2">上一步</button>
@@ -247,7 +248,7 @@
                 var button = $(event.relatedTarget);
                 var bikeId = button.data('bike-id');
 
-                console.log('bikeId',bikeId);
+                console.log('bikeId', bikeId);
 
                 $('#bikeIdInput').val(bikeId);
                 var bikeModel = button.closest('.card').find('.card-title').text();
@@ -281,7 +282,7 @@
                         var bikeId = $('#bikeIdInput').val();
                         // summary += '<div><strong>機車ID：</strong>' + bikeId + '</div>';
 
-                        $('#rentForm').serializeArray().forEach(function(item){
+                        $('#rentForm').serializeArray().forEach(function(item) {
                             // 排除不顯示的欄位
                             if (item.name === '_token' || item.name === 'bike_id') {
                                 return;
