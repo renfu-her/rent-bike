@@ -56,7 +56,8 @@ class OrderResource extends Resource
                     ->nullable(),
                 Forms\Components\DateTimePicker::make('end_time')
                     ->label('租借結束時間')
-                    ->nullable(),
+                    ->nullable()
+                    ->helperText('設定結束時間後，如果訂單已完成或取消，機車狀態會自動改為待出租'),
                 Forms\Components\Select::make('status')
                     ->label('狀態')
                     ->options([
@@ -132,6 +133,55 @@ class OrderResource extends Resource
                     ]),
             ])
             ->actions([
+                Tables\Actions\Action::make('changeStatus')
+                    ->label('變更狀態')
+                    ->icon('heroicon-o-pencil-square')
+                    ->form([
+                        Forms\Components\Select::make('status')
+                            ->label('訂單狀態')
+                            ->options([
+                                'pending' => '待處理',
+                                'active' => '進行中',
+                                'completed' => '已完成',
+                                'cancelled' => '已取消',
+                            ])
+                            ->default(fn (Order $record): string => $record->status)
+                            ->required(),
+                        Forms\Components\DateTimePicker::make('end_time')
+                            ->label('結束時間')
+                            ->default(fn (Order $record): ?string => $record->end_time?->format('Y-m-d H:i:s'))
+                            ->helperText('設定結束時間後，機車狀態會自動改為待出租'),
+                    ])
+                    ->action(function (Order $record, array $data): void {
+                        $record->update($data);
+                        
+                        // 更新機車狀態
+                        $bike = $record->bike;
+                        if ($bike) {
+                            switch ($data['status']) {
+                                case 'completed':
+                                    $bike->update(['status' => 'rented']);
+                                    break;
+                                    
+                                case 'cancelled':
+                                    $bike->update(['status' => 'available']);
+                                    break;
+                                    
+                                case 'active':
+                                    $bike->update(['status' => 'rented']);
+                                    break;
+                                    
+                                case 'pending':
+                                    $bike->update(['status' => 'pending']);
+                                    break;
+                            }
+                            
+                            // 如果結束時間已設定，且訂單已完成或取消，則機車狀態改為待出租
+                            if (isset($data['end_time']) && $data['end_time'] && in_array($data['status'], ['completed', 'cancelled'])) {
+                                $bike->update(['status' => 'available']);
+                            }
+                        }
+                    }),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

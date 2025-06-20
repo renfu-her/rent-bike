@@ -42,6 +42,37 @@ class Order extends Model
                 $order->order_number = self::generateOrderNumber();
             }
         });
+
+        static::updated(function ($order) {
+            // 當訂單狀態或結束時間變更時，更新機車狀態
+            if ($order->wasChanged(['status', 'end_time'])) {
+                $bike = $order->bike;
+                if ($bike) {
+                    switch ($order->status) {
+                        case 'completed':
+                            $bike->update(['status' => 'rented']);
+                            break;
+                            
+                        case 'cancelled':
+                            $bike->update(['status' => 'available']);
+                            break;
+                            
+                        case 'active':
+                            $bike->update(['status' => 'rented']);
+                            break;
+                            
+                        case 'pending':
+                            $bike->update(['status' => 'pending']);
+                            break;
+                    }
+                    
+                    // 如果結束時間已設定，且訂單已完成或取消，則機車狀態改為待出租
+                    if ($order->end_time && in_array($order->status, ['completed', 'cancelled'])) {
+                        $bike->update(['status' => 'available']);
+                    }
+                }
+            }
+        });
     }
 
     /**
