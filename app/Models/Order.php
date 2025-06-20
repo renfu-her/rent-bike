@@ -14,6 +14,9 @@ class Order extends Model
     protected $fillable = [
         'bike_id',
         'user_id',
+        'member_id',
+        'rental_plan',
+        'booking_date',
         'start_time',
         'end_time',
         'status',
@@ -23,6 +26,7 @@ class Order extends Model
     protected $casts = [
         'start_time' => 'datetime',
         'end_time' => 'datetime',
+        'booking_date' => 'date',
         'status' => 'string',
         'total_price' => 'decimal:2',
     ];
@@ -35,6 +39,11 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
     }
 
     public function ticket()

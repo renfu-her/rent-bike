@@ -37,9 +37,15 @@ class OrderResource extends Resource
                     ->label('租借機車')
                     ->relationship('bike', 'plate_no')
                     ->required(),
-                Forms\Components\Select::make('user_id')
-                    ->label('租借者')
-                    ->relationship('user', 'name')
+                Forms\Components\Select::make('member_id')
+                    ->label('租借會員')
+                    ->relationship('member', 'name')
+                    ->required(),
+                Forms\Components\TextInput::make('rental_plan')
+                    ->label('租賃方案')
+                    ->required(),
+                Forms\Components\DatePicker::make('booking_date')
+                    ->label('預約日期')
                     ->required(),
                 Forms\Components\DateTimePicker::make('start_time')
                     ->label('租借開始時間')
@@ -50,6 +56,7 @@ class OrderResource extends Resource
                 Forms\Components\Select::make('status')
                     ->label('狀態')
                     ->options([
+                        'pending' => '待處理',
                         'active' => '進行中',
                         'completed' => '已完成',
                         'cancelled' => '已取消',
@@ -71,9 +78,15 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('bike.plate_no')
                     ->label('租借機車')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('租借者')
+                Tables\Columns\TextColumn::make('member.name')
+                    ->label('租借會員')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('rental_plan')
+                    ->label('租賃方案'),
+                Tables\Columns\TextColumn::make('booking_date')
+                    ->label('預約日期')
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('start_time')
                     ->label('租借開始時間')
                     ->dateTime()
@@ -85,6 +98,7 @@ class OrderResource extends Resource
                 Tables\Columns\SelectColumn::make('status')
                     ->label('狀態')
                     ->options([
+                        'pending' => '待處理',
                         'active' => '進行中',
                         'completed' => '已完成',
                         'cancelled' => '已取消',
@@ -108,6 +122,7 @@ class OrderResource extends Resource
                 Tables\Filters\SelectFilter::make('status')
                     ->label('狀態')
                     ->options([
+                        'pending' => '待處理',
                         'active' => '進行中',
                         'completed' => '已完成',
                         'cancelled' => '已取消',
@@ -135,7 +150,7 @@ class OrderResource extends Resource
     {
         return [
             'index' => Pages\ListOrders::route('/'),
-            'create' => Pages\CreateOrder::route('/create'),
+            // 'create' => Pages\CreateOrder::route('/create'),
             'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }

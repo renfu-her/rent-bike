@@ -132,7 +132,9 @@
           <div class="mt-2" id="modalBikeName"><span class="badge bg-info text-dark">機車：<span id="modalBikeModel"></span></span></div>
         </div>
         <!-- 多步驟表單內容 -->
-        <form id="rentForm">
+        <form id="rentForm" action="{{ route('orders.store') }}" method="POST">
+            @csrf
+            <input type="hidden" name="bike_id" id="bikeIdInput">
           <div class="step step-1">
             <div class="text-main fw-bold mb-2">基本資料(1/3)</div>
             <div class="mb-2">
@@ -158,11 +160,8 @@
           <div class="step step-2 d-none">
             <div class="text-main fw-bold mb-2">時間選擇(2/3)</div>
             <div class="mb-2">
-              <label class="form-label">租借類型</label>
-              <select class="form-select" name="rent_type">
-                <option>日租</option>
-                <option>時租</option>
-              </select>
+              <label class="form-label">租賃方案</label>
+              <select class="form-select" name="rental_plan" id="rentalPlanSelect"></select>
             </div>
             <div class="mb-2">
               <label class="form-label">門市</label>
@@ -171,14 +170,8 @@
               </select>
             </div>
             <div class="mb-2">
-              <label class="form-label">取車時間</label>
-              <input type="date" class="form-control mb-1" name="pickup_date">
-              <input type="time" class="form-control" name="pickup_time">
-            </div>
-            <div class="mb-2">
-              <label class="form-label">還車時間</label>
-              <input type="date" class="form-control mb-1" name="return_date">
-              <input type="time" class="form-control" name="return_time">
+              <label class="form-label">預約日期</label>
+              <input type="date" class="form-control" name="booking_date">
             </div>
             <div class="d-flex justify-content-between mt-3">
               <button type="button" class="btn btn-secondary prev-step w-50 me-2">上一步</button>
@@ -208,8 +201,18 @@
     $(document).on('show.bs.modal', '#rentModal', function (event) {
         var button = $(event.relatedTarget);
         var bikeId = button.data('bike-id');
+        $('#bikeIdInput').val(bikeId);
         var bikeModel = button.closest('.card').find('.card-title').text();
         $('#modalBikeModel').text(bikeModel);
+
+        // 動態載入租賃方案
+        var rentalOptions = '';
+        button.closest('.card-body').find('.badge:contains("天")').each(function() {
+            var planText = $(this).text().trim();
+            var planValue = planText.replace(/\s/g, ''); // 移除所有空格
+            rentalOptions += '<option value="' + planValue + '">' + planText + '</option>';
+        });
+        $('#rentalPlanSelect').html(rentalOptions);
     });
     // 多步驟切換
     $(function(){
