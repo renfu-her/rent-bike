@@ -29,8 +29,9 @@ class EditBike extends EditRecord
         return $data;
     }
 
-    protected function afterSave($record): void
+    protected function afterSave(): void
     {
+        $record = $this->record;
         $syncData = [];
         foreach ($this->data['accessory_items_sync'] ?? [] as $item) {
             $syncData[$item['accessory_id']] = [

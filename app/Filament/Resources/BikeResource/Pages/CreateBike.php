@@ -22,8 +22,9 @@ class CreateBike extends CreateRecord
         return $data;
     }
 
-    protected function afterCreate($record): void
+    protected function afterCreate(): void
     {
+        $record = $this->record;
         $syncData = [];
         foreach ($this->data['accessory_items_sync'] ?? [] as $item) {
             $syncData[$item['accessory_id']] = [
