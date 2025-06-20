@@ -60,7 +60,7 @@
                         <a href="{{ route('home') }}" class="btn btn-primary" style="background-color: #3AC0D2; border-color: #3AC0D2;">
                             <i class="fa-solid fa-home me-2"></i>返回首頁
                         </a>
-                        <a href="#" class="btn btn-outline-secondary">
+                        <a href="{{ route('orders.index') }}" class="btn btn-outline-secondary">
                             <i class="fa-solid fa-list me-2"></i>我的訂單
                         </a>
                     </div>

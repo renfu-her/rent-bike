@@ -14,4 +14,7 @@ Route::get('/signup', [LoginController::class, 'showSignUp'])->name('signup');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/signup', [LoginController::class, 'signUp']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// 訂單相關路由
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');

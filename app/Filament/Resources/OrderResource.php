@@ -18,15 +18,15 @@ class OrderResource extends Resource
     protected static ?string $model = Order::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
-    
+
     protected static ?string $navigationGroup = '租借管理';
-    
+
     protected static ?string $navigationLabel = '訂單管理';
-    
+
     protected static ?string $modelLabel = '訂單';
-    
+
     protected static ?string $pluralModelLabel = '訂單';
-    
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -49,7 +49,7 @@ class OrderResource extends Resource
                     ->required(),
                 Forms\Components\DateTimePicker::make('start_time')
                     ->label('租借開始時間')
-                    ->required(),
+                    ->nullable(),
                 Forms\Components\DateTimePicker::make('end_time')
                     ->label('租借結束時間')
                     ->nullable(),
@@ -85,15 +85,19 @@ class OrderResource extends Resource
                     ->label('租賃方案'),
                 Tables\Columns\TextColumn::make('booking_date')
                     ->label('預約日期')
-                    ->date()
+                    ->dateTime('Y-m-d')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('start_time')
                     ->label('租借開始時間')
-                    ->dateTime()
+                    ->dateTime('Y-m-d')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_time')
                     ->label('租借結束時間')
-                    ->dateTime()
+                    ->dateTime('Y-m-d')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('total_price')
+                    ->label('總金額')
+                    ->money('TWD')
                     ->sortable(),
                 Tables\Columns\SelectColumn::make('status')
                     ->label('狀態')
@@ -103,20 +107,11 @@ class OrderResource extends Resource
                         'completed' => '已完成',
                         'cancelled' => '已取消',
                     ]),
-                Tables\Columns\TextColumn::make('total_price')
-                    ->label('總金額')
-                    ->money('TWD')
-                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('建立時間')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('更新時間')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->dateTime('Y-m-d H:i:s')
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
