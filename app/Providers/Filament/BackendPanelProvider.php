@@ -33,6 +33,7 @@ class BackendPanelProvider extends PanelProvider
             ->darkMode(false)
             ->brandLogo(asset('images/backend_favicon.png'))
             ->brandLogoHeight('60px')
+            ->favicon(asset('images/backend_favicon.png'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
