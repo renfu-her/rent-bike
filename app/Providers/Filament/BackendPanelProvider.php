@@ -41,6 +41,9 @@ class BackendPanelProvider extends PanelProvider
             ->navigationGroups([
                 '商店管理',
                 '租借管理',
+                '網站管理',
+                '會員管理',
+                '系統管理',
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
