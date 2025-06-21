@@ -39,6 +39,7 @@
                             <li id="lowercaseCheck"><i class="fa fa-times text-danger"></i> 包含小寫字母</li>
                             <li id="uppercaseCheck"><i class="fa fa-times text-danger"></i> 包含大寫字母</li>
                             <li id="numberCheck"><i class="fa fa-times text-danger"></i> 包含數字</li>
+                            <li id="symbolCheck"><i class="fa fa-times text-danger"></i> 包含標點符號</li>
                         </ul>
                     </div>
                 </div>
@@ -150,8 +151,15 @@ $(document).ready(function() {
             $('#numberCheck').html('<i class="fa fa-times text-danger"></i> 包含數字');
         }
         
+        // 檢查標點符號
+        if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+            $('#symbolCheck').html('<i class="fa fa-check text-success"></i> 包含標點符號');
+        } else {
+            $('#symbolCheck').html('<i class="fa fa-times text-danger"></i> 包含標點符號');
+        }
+        
         // 檢查所有條件
-        passwordValid = password.length >= 8 && /[a-z]/.test(password) && /[A-Z]/.test(password) && /\d/.test(password);
+        passwordValid = password.length >= 8 && /[a-z]/.test(password) && /[A-Z]/.test(password) && /\d/.test(password) && /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
         
         // 檢查密碼確認
         checkPasswordMatch();
