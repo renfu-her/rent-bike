@@ -36,7 +36,7 @@ class MemberResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')->label('姓名')->required(),
-                Forms\Components\TextInput::make('email')->label('電子郵件')->email()->required(),
+                Forms\Components\TextInput::make('email')->label('電子郵件')->email()->required()->disabledOn('edit'),
                 Forms\Components\TextInput::make('phone')->label('電話')->tel(),
                 Forms\Components\TextInput::make('address')->label('地址'),
                 Forms\Components\TextInput::make('id_number')
