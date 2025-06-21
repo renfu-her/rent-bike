@@ -25,6 +25,12 @@ class MemberResource extends Resource
     protected static ?string $pluralModelLabel = '會員';
     protected static ?int $navigationSort = 10;
 
+    // 隱藏新增會員按鈕
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -96,5 +102,4 @@ class MemberResource extends Resource
             'edit' => Pages\EditMember::route('/{record}/edit'),
         ];
     }
-
 }
