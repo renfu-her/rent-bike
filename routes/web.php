@@ -15,6 +15,7 @@ Route::get('/signup', [LoginController::class, 'showSignUp'])->name('signup');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/signup', [LoginController::class, 'signUp']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/check-email', [LoginController::class, 'checkEmail'])->name('check.email');
 
 Route::middleware('auth:member')->group(function () {
 

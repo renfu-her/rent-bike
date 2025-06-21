@@ -51,15 +51,18 @@ class LoginController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'min:6', 'confirmed'],
+            'email' => ['required', 'email', 'max:255', 'unique:members,email'],
+            'password' => ['required', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'],
+        ], [
+            'email.unique' => '此 Email 已經存在，請重新輸入',
+            'password.min' => '密碼至少需要 8 個字元',
+            'password.regex' => '密碼必須包含至少一個小寫字母、一個大寫字母和一個數字',
         ]);
 
         $member = Member::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => 'user',
         ]);
 
         Auth::guard('member')->login($member);
@@ -73,5 +76,19 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/');
+    }
+
+    // 檢查 Email 是否存在
+    public function checkEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        $exists = Member::where('email', $request->email)->exists();
+        
+        return response()->json([
+            'exists' => $exists
+        ]);
     }
 }

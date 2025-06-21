@@ -18,6 +18,11 @@ class Member extends Authenticatable
         'gender',
     ];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
     protected $casts = [
         'status' => 'integer',
     ];
