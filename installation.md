@@ -9,49 +9,24 @@
 
 ## 安裝步驟
 
-1. **下載專案原始碼**
-   ```bash
-   git clone <專案網址>
-   cd rent-bike
-   ```
+1. 安裝的步驟
+```bash
+git clone <專案網址>
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan storage:link
+```
 
-2. **安裝 PHP 套件**
-   ```bash
-   composer install
-   ```
+2. 清理 Filament cache
+``` bash
+php artisan vendor:publish --force --tag=livewire:assets
+php artisan filament:assets
+php artisan filament:cache-components
+```
 
-3. **複製環境設定檔**
-   ```bash
-   cp .env.example .env
-   ```
-
-4. **設定 .env 檔案**
-   - 設定資料庫連線資訊（DB_DATABASE、DB_USERNAME、DB_PASSWORD）
-   - 設定其他必要參數
-
-5. **產生應用程式金鑰**
-   ```bash
-   php artisan key:generate
-   ```
-
-6. **執行資料庫遷移**
-   ```bash
-   php artisan migrate
-   ```
-
-7. **建立 storage 連結**
-   ```bash
-   php artisan storage:link
-   ```
-
-8. **執行 Filament 重新架構 & cache**
-   ```base
-   php artisan vendor:publish --force --tag=livewire:assets
-   php artisan filament:assets
-   php artisan filament:cache-components
-   ```   
-
-10. **預設管理後台路徑**
+3. **預設管理後台路徑**
     - 通常為 `/backend`，可依專案設定調整
 
 ## 其他注意事項
